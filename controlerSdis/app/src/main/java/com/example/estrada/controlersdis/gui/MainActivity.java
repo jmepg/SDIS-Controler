@@ -1,4 +1,4 @@
-package com.example.estrada.controlersdis;
+package com.example.estrada.controlersdis.gui;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,21 +10,27 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.estrada.controlersdis.R;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.json.JSONArray;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class MainActivity extends Activity {
 
     Button connButton;
     ImageButton leftButton;
     ImageButton rightButton;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
+    String string;
+
+
     private GoogleApiClient client;
 
     @Override
@@ -74,6 +80,8 @@ public class MainActivity extends Activity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+
     }
 
     @Override
@@ -115,4 +123,7 @@ public class MainActivity extends Activity {
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
+
+
+
 }
