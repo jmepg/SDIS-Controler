@@ -23,12 +23,13 @@ import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class MainActivity extends Activity {
+public class GameScreen extends Activity {
 
     Button connButton;
     ImageButton leftButton;
     ImageButton rightButton;
     String string;
+    public Boolean connection;
 
 
     private GoogleApiClient client;

@@ -1,6 +1,8 @@
 package com.example.estrada.controlersdis.client;
 
 
+import com.example.estrada.controlersdis.gui.GameScreen;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -10,9 +12,11 @@ public class Listener implements Runnable{
 
     private byte[] buffer = new byte[256];
     private DatagramSocket clientSocket;
+    private final GameScreen gameScreen;
 
-    public Listener() throws IOException{
+    public Listener(GameScreen gameScreen) throws IOException{
         this.clientSocket = new DatagramSocket(9999); //necessario atualizar
+        this.gameScreen = gameScreen;
     }
 
     public void run(){
@@ -22,9 +26,14 @@ public class Listener implements Runnable{
                 clientSocket.receive(recPacket);
                 String msg = new String(recPacket.getData(), 0,
                         recPacket.getLength());
-
-                //MISSING CODE HERE
-                //regarding messages
+                if(msg.startsWith("/JumpHero/init")){
+                    gameScreen.connection = true;
+                }
+                if(msg.startsWith("/JumpHero/over")){
+                    gameScreen.connection = false;
+                }
+    // Supostamente não será preciso mais nada pq oo listener é so pra ver se o
+    // comando esta ligado
             }
             catch (SocketException e){
                 e.printStackTrace();
@@ -33,5 +42,9 @@ public class Listener implements Runnable{
                 e.printStackTrace();
             }
         } while(true);
+    }
+
+    public GameScreen getGameScreen(){
+        return gameScreen;
     }
 }
