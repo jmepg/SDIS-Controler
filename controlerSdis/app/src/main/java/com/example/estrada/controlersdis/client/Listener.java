@@ -26,10 +26,10 @@ public class Listener implements Runnable{
                 clientSocket.receive(recPacket);
                 String msg = new String(recPacket.getData(), 0,
                         recPacket.getLength());
-                if(msg.startsWith("/JumpHero/init")){
+                if(msg.startsWith("/Runner/init")){
                     gameScreen.connection = true;
                 }
-                if(msg.startsWith("/JumpHero/over")){
+                if(msg.startsWith("/Runner/over")){
                     gameScreen.connection = false;
                 }
     // Supostamente não será preciso mais nada pq oo listener é so pra ver se o
@@ -42,6 +42,7 @@ public class Listener implements Runnable{
                 e.printStackTrace();
             }
         } while(true);
+
     }
 
     public GameScreen getGameScreen(){

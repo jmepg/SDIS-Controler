@@ -53,6 +53,13 @@ public class GameScreen extends Activity {
         connButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
+                if (connection){
+                    //disconnect
+                }
+                else{
+                    //connect
+
+                }
                 Context context = getApplicationContext();
                 CharSequence text = "Hello toast aaaaa!";
                 int duration = Toast.LENGTH_SHORT;
