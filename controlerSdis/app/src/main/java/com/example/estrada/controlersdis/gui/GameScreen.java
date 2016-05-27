@@ -62,7 +62,21 @@ public class GameScreen extends Activity {
         connButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
+                    if(pl.getPlayerID()>0){
+                        Toast.makeText(getApplicationContext(),
+                                "Already Connected", Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     pl.connect();
+
+                    if(pl.getPlayerID()==-1){
+                        Toast.makeText(getApplicationContext(),
+                                "No More Players Allowed", Toast.LENGTH_LONG).show();
+                    }
+                    if(pl.getPlayerID()==-2){
+                        Toast.makeText(getApplicationContext(),
+                                "Error Connecting", Toast.LENGTH_LONG).show();
+                    }
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {

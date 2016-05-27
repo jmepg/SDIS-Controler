@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class Player {
 
-    int playerID;
+    int playerID=0;
 
     public Player(){
     }
@@ -23,7 +23,14 @@ public class Player {
     public void connect() throws ExecutionException, InterruptedException {
         Client c = new Client();
         String str = c.execute("connect").get();
-        playerID = Integer.parseInt(str);
+        if(str.equals("unable")){
+            playerID = -1;
+        }
+        else if(str.equals("error")){
+            playerID = -2;
+        }
+        else
+            playerID = Integer.parseInt(str);
     }
 
     public int getPlayerID(){

@@ -31,13 +31,19 @@ public class Client extends AsyncTask<String, Void, String> {
             System.out.println("oi");
 
             System.out.println("oi_CLI: " + clientID);
-            //cancel(true);
 
             if(params[0].equals("left")|| params[0].equals("right"))
                 params[0] = clientID+"/"+params[0];
+
             System.out.println("PARAM[0]: "+params[0]);
 
             String num = httpRequest(params[0]);
+
+            System.out.println("NUMMMMM: "+num);
+
+            if(num.equals("max")){
+                return "unable";
+            }
 
             if(params[0].equals("connect")){
                 clientID = Integer.parseInt(num);
@@ -48,8 +54,9 @@ public class Client extends AsyncTask<String, Void, String> {
             return num;
         } catch (IOException e) {
             e.printStackTrace();
+            return "error";
         }
-        return "stop";
+
     }
 
 
@@ -82,8 +89,9 @@ public class Client extends AsyncTask<String, Void, String> {
                 return response.toString();
             } else {
                 System.out.println("GET request not worked");
+                return "error";
             }
-            return "error";
+
 
     }
     public void onPostExecute(Void result) {
