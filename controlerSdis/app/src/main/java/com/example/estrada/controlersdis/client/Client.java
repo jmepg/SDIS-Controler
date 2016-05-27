@@ -19,34 +19,44 @@ import java.security.GeneralSecurityException;
 
 
 public class Client extends AsyncTask<String, Void, String> {
-    private static int count = 0;
-    int clientID;
     HttpURLConnection connection;
+    static int clientID=0;
 
-    public Client() throws GeneralSecurityException, IOException {
-        setClientID(++count);
-    }
 
-    public void setClientID(int ID){
-        this.clientID = ID;
-    }
 
     @Override
     protected String doInBackground(String... params) {
-        System.out.println("erro");
         // TODO Auto-generated method stub
         try {
-             httpRequest();
+            System.out.println("oi");
+
+            System.out.println("oi_CLI: " + clientID);
+            //cancel(true);
+
+            if(params[0].equals("left")|| params[0].equals("right"))
+                params[0] = clientID+"/"+params[0];
+            System.out.println("PARAM[0]: "+params[0]);
+
+            String num = httpRequest(params[0]);
+
+            if(params[0].equals("connect")){
+                clientID = Integer.parseInt(num);
+                setClientID(clientID);
+            }
+
+            System.out.println("ID_CLI: "+clientID);
+            return num;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "";
+        return "stop";
     }
 
 
 
-    public void httpRequest()throws IOException{;
-            URL url = new URL("http://172.30.12.172:8000/api");
+    public String httpRequest(String param)throws IOException{
+            String urlStr = "http://172.30.12.172:8000/api/" + param;
+            URL url = new URL(urlStr);
             String method = "GET";
             connection= (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -68,14 +78,23 @@ public class Client extends AsyncTask<String, Void, String> {
                 in.close();
 
                 // print result
-                System.out.println(response.toString());
+                System.out.println("REPOSTA AQUI: " +response.toString());
+                return response.toString();
             } else {
                 System.out.println("GET request not worked");
             }
+            return "error";
 
-
-
+    }
+    public void onPostExecute(Void result) {
 
     }
 
+    public int getClientID(){
+        return clientID;
+    }
+
+    public void setClientID(int clientID){
+        this.clientID=clientID;
+    }
 }

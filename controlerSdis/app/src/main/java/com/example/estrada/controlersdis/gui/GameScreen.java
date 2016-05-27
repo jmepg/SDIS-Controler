@@ -15,6 +15,7 @@ import com.example.estrada.controlersdis.R;
 //import com.example.estrada.controlersdis.client.Client;
 import com.example.estrada.controlersdis.client.Client;
 import com.example.estrada.controlersdis.client.Listener;
+import com.example.estrada.controlersdis.client.Player;
 
 import org.json.JSONArray;
 
@@ -26,6 +27,7 @@ import java.net.URL;
 import java.security.GeneralSecurityException;
 import java.sql.SQLOutput;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class GameScreen extends Activity {
 
@@ -35,7 +37,7 @@ public class GameScreen extends Activity {
     String string;
     public Boolean connection = false;
     Context context = this;
-
+    Player pl;
 
     public Context getContext()
     {
@@ -49,7 +51,7 @@ public class GameScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        pl = new Player();
         connButton = (Button) findViewById(R.id.connButton);
         leftButton = (ImageButton) findViewById(R.id.leftButton);
         rightButton = (ImageButton) findViewById(R.id.rightButton);
@@ -60,21 +62,20 @@ public class GameScreen extends Activity {
         connButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
-                    System.out.println("ola1");
-                    new Client().execute();
-                } catch (GeneralSecurityException e) {
+                    pl.connect();
+                } catch (ExecutionException e) {
                     e.printStackTrace();
-                } catch (IOException e) {
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                System.out.println("PLAYER_NUMBER: "+ pl.getPlayerID());
             }});
 
 
         leftButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-              /*  Toast.makeText(getApplicationContext(), st,
-                        Toast.LENGTH_SHORT).show();*/
+                pl.moveLeft();
             }
         });
 
@@ -82,7 +83,7 @@ public class GameScreen extends Activity {
         rightButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-
+                pl.moveRight();
             }
         });
 
@@ -99,26 +100,6 @@ public class GameScreen extends Activity {
         super.onStop();
 
     }
-/*
-    public void req(){
-
-        String urlStr = "http://localhost:8000/api";
-        try {
-            Client cli = new Client();
-            URL url = new URL(urlStr);
-            String response = cli.httpRequest(url, "GET");
-            Toast.makeText(getApplicationContext(), response,
-                    Toast.LENGTH_SHORT).show();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "error",
-                    Toast.LENGTH_SHORT).show();
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
 
 
 }
