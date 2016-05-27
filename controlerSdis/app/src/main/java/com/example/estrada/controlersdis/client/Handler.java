@@ -18,26 +18,24 @@ class Handler implements HttpHandler {
         this.listener = listener;
     }
 
-    public void handler(HttpExchange httpexchange) throws IOException {
-
-        InputStream iStream = httpexchange.getRequestBody();
-
-        Scanner scanner = new Scanner(iStream, "UTF-8").useDelimiter("\n");
-
-        String path = httpexchange.getRequestURI().getPath();
-
-
-       // httpexchange.sendResponseHeaders(200,);
-        OutputStream oStream = httpexchange.getResponseBody();
-       // oStream.write(response.getBytes());
-
-       ////MISSING CODE HERE
-        //regarding messages
-    }
-
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        InputStream is = exchange.getRequestBody();
 
+        Scanner scanner = new Scanner(is, "UTF-8").useDelimiter("\n");
+
+        String path = exchange.getRequestURI().getPath();
+        System.out.println(path);
+        OutputStream os = exchange.getResponseBody();
+        String response;
+        if(listener.getGameScreen().connection)
+            response ="true";
+        else
+            response = "false";
+
+        os.write(response.getBytes());
+        os.close();
+        scanner.close();
     }
 
 }

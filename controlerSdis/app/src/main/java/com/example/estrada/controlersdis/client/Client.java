@@ -1,80 +1,77 @@
 package com.example.estrada.controlersdis.client;
+
+import android.content.Context;
+import android.os.AsyncTask;
+import android.util.Log;
+
 import java.io.BufferedReader;
-import java.io.Writer;
-import java.net.URL;
-import java.net.HttpURLConnection;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.OutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.security.GeneralSecurityException;
 
 
 
+public class Client extends AsyncTask<String, Void, String> {
+    private static int count = 0;
+    int clientID;
+    HttpURLConnection connection;
 
-public class Client {
-
-
-    private String hostAddress;
-    private int port;
-
-
-
-    public Client(String hostAddress,int port){
-        this.hostAddress = hostAddress;
-        this.port = port;
+    public Client() throws GeneralSecurityException, IOException {
+        setClientID(++count);
     }
 
-    public String httpGet(String request)throws IOException{
-        URL url = new URL("http",hostAddress,port,request);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-        BufferedReader reader =new BufferedReader(
-                new InputStreamReader(connection.getInputStream()));
-        StringBuilder sBuilder = new StringBuilder();
-        String line;
-        while((line = reader.readLine())!= null){
-            sBuilder.append(line);
-        }
-
-        reader.close();
-        connection.disconnect();
-        return sBuilder.toString();
-
+    public void setClientID(int ID){
+        this.clientID = ID;
     }
 
-    public String httpPost(String urlString) throws Exception{
-        URL url = new URL("http","9999",9999,"9999"); //necessario atualizar
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-        //connection properties
-        connection.setRequestMethod("POST");
-        connection.setDoInput(true);
-        connection.setDoOutput(true);
-        connection.setUseCaches(false);
-        connection.setAllowUserInteraction(false);
-        connection.setRequestProperty("Content-Type","9999"); //necesdsario atualizar
-
-        OutputStream outStream = connection.getOutputStream();
-        Writer writer = new OutputStreamWriter(outStream,"UTF-8");
-
-        //incluir aqui os writes que forem necessarios
-
-        writer.close();
-        outStream.close();
-
-        BufferedReader reader =new BufferedReader(
-                new InputStreamReader(connection.getInputStream()));
-
-        StringBuilder sBuilder = new StringBuilder();
-        String line;
-
-        while((line = reader.readLine())!= null){
-            sBuilder.append(line);
+    @Override
+    protected String doInBackground(String... params) {
+        System.out.println("erro");
+        // TODO Auto-generated method stub
+        try {
+             httpRequest();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return "";
+    }
 
-        reader.close();
-        connection.disconnect();
-        return sBuilder.toString();
+
+
+    public void httpRequest()throws IOException{;
+            URL url = new URL("http://172.30.12.172:8000/api");
+            String method = "GET";
+            connection= (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setUseCaches(false);
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+            connection.connect();
+            int responseCode = connection.getResponseCode();
+            System.out.println("GET Response Code :: " + responseCode);
+            if (responseCode == HttpURLConnection.HTTP_OK) { // success
+                BufferedReader in = new BufferedReader(new InputStreamReader(
+                        connection.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+
+                // print result
+                System.out.println(response.toString());
+            } else {
+                System.out.println("GET request not worked");
+            }
 
 
 
@@ -82,4 +79,3 @@ public class Client {
     }
 
 }
-

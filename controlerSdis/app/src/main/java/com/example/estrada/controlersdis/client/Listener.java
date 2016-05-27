@@ -15,7 +15,7 @@ public class Listener implements Runnable{
     private final GameScreen gameScreen;
 
     public Listener(GameScreen gameScreen) throws IOException{
-        this.clientSocket = new DatagramSocket(9999); //necessario atualizar
+        this.clientSocket = new DatagramSocket(9001); //necessario atualizar
         this.gameScreen = gameScreen;
     }
 

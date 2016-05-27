@@ -2,6 +2,7 @@ package com.example.estrada.controlersdis.gui;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.app.Activity;
 import android.os.Bundle;
@@ -11,9 +12,9 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.estrada.controlersdis.R;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
+//import com.example.estrada.controlersdis.client.Client;
+import com.example.estrada.controlersdis.client.Client;
+import com.example.estrada.controlersdis.client.Listener;
 
 import org.json.JSONArray;
 
@@ -22,6 +23,9 @@ import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.GeneralSecurityException;
+import java.sql.SQLOutput;
+import java.util.List;
 
 public class GameScreen extends Activity {
 
@@ -29,10 +33,16 @@ public class GameScreen extends Activity {
     ImageButton leftButton;
     ImageButton rightButton;
     String string;
-    public Boolean connection;
+    public Boolean connection = false;
+    Context context = this;
 
 
-    private GoogleApiClient client;
+    public Context getContext()
+    {
+        return context;
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,33 +57,24 @@ public class GameScreen extends Activity {
         rightButton.setBackgroundResource(R.drawable.right);
 
 
-        InetSocketAddress socket;
-
-
         connButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                if (connection){
-                    //disconnect
+                try {
+                    System.out.println("ola1");
+                    new Client().execute();
+                } catch (GeneralSecurityException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                else{
-                    //connect
-
-                }
-                Context context = getApplicationContext();
-                CharSequence text = "Hello toast aaaaa!";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-
-            }
-        });
+            }});
 
 
         leftButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+              /*  Toast.makeText(getApplicationContext(), st,
+                        Toast.LENGTH_SHORT).show();*/
             }
         });
 
@@ -81,14 +82,9 @@ public class GameScreen extends Activity {
         rightButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+
             }
         });
-
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-
 
     }
 
@@ -96,42 +92,33 @@ public class GameScreen extends Activity {
     public void onStart() {
         super.onStart();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.example.estrada.controlersdis/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.example.estrada.controlersdis/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
     }
+/*
+    public void req(){
 
+        String urlStr = "http://localhost:8000/api";
+        try {
+            Client cli = new Client();
+            URL url = new URL(urlStr);
+            String response = cli.httpRequest(url, "GET");
+            Toast.makeText(getApplicationContext(), response,
+                    Toast.LENGTH_SHORT).show();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "error",
+                    Toast.LENGTH_SHORT).show();
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }*/
 
 
 }
