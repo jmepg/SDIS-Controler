@@ -7,32 +7,44 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:screenOrientation="landscape"
+    android:configChanges="keyboardHidden|orientation|screenSize"
     tools:context=".gui.GameScreen">
+
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CONNECT!"
+        android:background="#ffff0000"
+        android:text="CONNECT"
         android:id="@+id/connButton"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="10dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="450dp"
+        android:layout_height="350dp"
         android:id="@+id/leftButton"
-        android:layout_marginTop="181dp"
+        android:layout_marginTop="30dp"
         android:layout_below="@+id/connButton"
-        android:layout_toLeftOf="@+id/connButton"
-        android:layout_toStartOf="@+id/connButton" />
+        android:layout_toStartOf="@+id/connButton"
+        android:layout_toLeftOf="@+id/connButton" />
 
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="450dp"
+        android:layout_height="350dp"
         android:id="@+id/rightButton"
         android:layout_alignTop="@+id/leftButton"
         android:layout_toRightOf="@+id/connButton"
         android:layout_toEndOf="@+id/connButton" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/playerImg"
+        android:layout_below="@+id/connButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
 
 </RelativeLayout>

@@ -28,29 +28,21 @@ public class Client extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         // TODO Auto-generated method stub
         try {
-            System.out.println("oi");
 
-            System.out.println("oi_CLI: " + clientID);
-
-            if(params[0].equals("left")|| params[0].equals("right"))
+            if(params[0].equals("left")|| params[0].equals("right") || params[0].equals("stop") || params[0].equals("disconnect"))
                 params[0] = clientID+"/"+params[0];
 
-            System.out.println("PARAM[0]: "+params[0]);
-
             String num = httpRequest(params[0]);
-
-            System.out.println("NUMMMMM: "+num);
 
             if(num.equals("max")){
                 return "unable";
             }
-
             if(params[0].equals("connect")){
+
                 clientID = Integer.parseInt(num);
                 setClientID(clientID);
             }
 
-            System.out.println("ID_CLI: "+clientID);
             return num;
         } catch (IOException e) {
             e.printStackTrace();

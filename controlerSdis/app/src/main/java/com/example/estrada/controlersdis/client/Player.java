@@ -20,6 +20,10 @@ public class Player {
        new Client().execute("right");
     }
 
+    public void moveStop(){
+        new Client().execute("stop");
+    }
+
     public void connect() throws ExecutionException, InterruptedException {
         Client c = new Client();
         String str = c.execute("connect").get();
@@ -33,7 +37,19 @@ public class Player {
             playerID = Integer.parseInt(str);
     }
 
+    public void disconnect() throws  ExecutionException, InterruptedException{
+        Client c = new Client();
+            String str = c.execute("disconnect").get();
+            if(str.equals("ok")){
+                playerID=0;
+            }
+
+    }
+
     public int getPlayerID(){
         return playerID;
+    }
+    public void setPlayerID(int id){
+        playerID = id;
     }
 }
